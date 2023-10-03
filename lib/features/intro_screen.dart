@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quran_verse/features/home_screen.dart';
 import 'package:quran_verse/utilities/color.dart';
+import 'package:quran_verse/utilities/custom_text_widget.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -46,7 +47,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     decoration: const BoxDecoration(
                       shape: BoxShape.rectangle,
                       color: ColorConstant.purpleColor,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     height: 400.0,
                     child: Column(
@@ -67,8 +68,8 @@ class _IntroScreenState extends State<IntroScreen> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 ColorConstant.orangeColor),
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -77,18 +78,22 @@ class _IntroScreenState extends State<IntroScreen> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const HomeScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
                             );
                           },
-                          child: const Text('Get Started !' ,style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),),
+                          child: const Text(
+                            'Get Started !',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
