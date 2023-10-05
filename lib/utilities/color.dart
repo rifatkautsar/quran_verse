@@ -9,4 +9,6 @@ class ColorConstant {
   static const purpleTextColor = Color(0xFFA19CC5);
   static const itemReadColor1 = Color(0xFFDF98FA);
   static const itemReadColor2 = Color(0xFF9055FF);
+  static const itemDoaColor = Color(0xFF1F2937);
+  static const bottomNavColor = Color(0xFF121931);
 }

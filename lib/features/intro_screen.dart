@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quran_verse/features/home_screen.dart';
+import 'package:quran_verse/features/surat/screens/home_screen.dart';
 import 'package:quran_verse/utilities/color.dart';
 import 'package:quran_verse/utilities/custom_text_widget.dart';
+import 'package:quran_verse/widget/CustomBottomNav.dart';
 
-class IntroScreen extends StatefulWidget {
+class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
 
-  @override
-  State<IntroScreen> createState() => _IntroScreenState();
-}
-
-class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,33 +57,44 @@ class _IntroScreenState extends State<IntroScreen> {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child: SizedBox(
-                        height: 50.0,
-                        width: 180.0,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                ColorConstant.orangeColor),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CustomBottomNav(),
+                            ),
+                          );
+                        },
+                        child: SizedBox(
+                          height: 50.0,
+                          width: 180.0,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorConstant.orangeColor),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
                               ),
                             ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
-                            );
-                          },
-                          child: const Text(
-                            'Get Started !',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CustomBottomNav(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Get Started !',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
