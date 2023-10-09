@@ -40,11 +40,12 @@ class Service {
       throw Exception('Failed to load Surah data: $error');
     }
   }
-  Future<List<Doa>>fetchDataDoa() async {
+  Future<List<Doa>> fetchDataDoa() async {
     try {
       Response response = await dio2.get('/doaharian');
       if (response.statusCode == 200) {
-        List<dynamic> data = response.data;
+        Map<String, dynamic> responseData = response.data;
+        List<dynamic> data = responseData['data'];
         List<Doa> doaList = data.map((item) => Doa.fromJson(item)).toList();
         return doaList;
       } else {

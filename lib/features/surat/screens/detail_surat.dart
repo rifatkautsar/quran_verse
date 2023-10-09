@@ -64,6 +64,13 @@ class _DetailSuratState extends State<DetailSurat> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    player.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstant.baseColor,
@@ -73,6 +80,7 @@ class _DetailSuratState extends State<DetailSurat> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
+            stopAudio();
           },
         ),
         title: Text(widget.namaSurat),
