@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:quran_verse/utilities/color.dart';
 import 'package:quran_verse/utilities/custom_text_widget.dart';
 
-class ItemDoa extends StatefulWidget {
-  const ItemDoa({super.key});
+class ItemDoa extends StatelessWidget {
+  final String namaDoa;
+  final String doaArab;
+  final String doaLatin;
+  final String doaArti;
 
-  @override
-  State<ItemDoa> createState() => _ItemDoaState();
-}
+  const ItemDoa(
+      {super.key,
+      required this.namaDoa,
+      required this.doaArab,
+      required this.doaLatin,
+      required this.doaArti});
 
-class _ItemDoaState extends State<ItemDoa> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,12 +22,12 @@ class _ItemDoaState extends State<ItemDoa> {
         color: ColorConstant.itemDoaColor,
         border: Border.all(color: ColorConstant.itemDoaColor, width: 1.0),
       ),
-      child: const ExpansionTile(
+      child: ExpansionTile(
         backgroundColor: ColorConstant.itemDoaColor,
-        title: Text('Doa Sesudah Makan'),
+        title: Text(namaDoa),
         children: [
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -31,9 +36,9 @@ class _ItemDoaState extends State<ItemDoa> {
                   children: [
                     Flexible(
                       child: Text(
-                        'اَللّٰهُمَّ بَارِكْ لَنَا فِيْمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ',
+                        doaArab,
                         textAlign: TextAlign.right,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -41,14 +46,21 @@ class _ItemDoaState extends State<ItemDoa> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10.0),
-                CustomTextWithSizeCustomColor(valueText: 'Alloohumma barik lanaa fiimaa razatanaa waqinaa adzaa bannar', textSize: 16.0, colorText: Colors.green,),
-                SizedBox(height: 10.0),
-                CustomTextWithSizeWhite(valueText: 'Ya Allah, berkahilah kami dalam rezeki yang telah Engkau berikan kepada kami dan peliharalah kami dari siksa api nerakar', textSize: 15.0),
+                const SizedBox(height: 10.0),
+                CustomTextWithSizeCustomColor(
+                  valueText:
+                      doaLatin,
+                  textSize: 16.0,
+                  colorText: Colors.green,
+                ),
+                const SizedBox(height: 10.0),
+                CustomTextWithSizeWhite(
+                    valueText:
+                        doaArti,
+                    textSize: 15.0),
               ],
             ),
           )
-
         ],
       ),
     );
