@@ -9,11 +9,23 @@ import 'package:quran_verse/utilities/color.dart';
 import 'package:quran_verse/utilities/custom_text_widget.dart';
 import 'package:quran_verse/widget/item_surat.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+import '../../../model/surat_model.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController searchController = TextEditingController();
+  List<Surah> _searchResults = [];
 
   @override
   Widget build(BuildContext context) {
+    bool isTextNotEmpty = searchController.text.isNotEmpty;
+
     return BlocProvider(
       create: (context) => SuratBloc(service: Service())..add(LoadSurat()),
       child: Scaffold(
@@ -27,6 +39,18 @@ class HomeScreen extends StatelessWidget {
             } else if (state is SuratLoaded) {
               final surah = state.surah;
 
+              void onSearchTextChanged(String query) {
+                _searchResults.clear();
+                if (query.isNotEmpty) {
+                  _searchResults = surah
+                      .where((surah) => surah.namaLatin
+                          .toLowerCase()
+                          .contains(query.toLowerCase()))
+                      .toList();
+                }
+                setState(() {});
+              }
+
               return SingleChildScrollView(
                 child: SafeArea(
                   child: Padding(
@@ -34,22 +58,12 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            const Text(
-                              'Quran App',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: () {},
-                              color: Colors.white,
-                              icon: const Icon(CupertinoIcons.search),
-                            ),
-                          ],
+                        const Text(
+                          'Quran App',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 10.0),
                         const CustomTextWithSizeCustomColor(
@@ -113,41 +127,127 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 30.0),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: surah.length,
-                          itemBuilder: (context, index) {
-                            // idSurat = surah[index].nomor;
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailSurat(
-                                            idSurat: surah[index].nomor,
-                                            namaSurat: surah[index].namaLatin,
-                                            artiSurat: surah[index].arti,
-                                            jumlahAyat: surah[index]
-                                                .jumlahAyat
-                                                .toString(),
-                                            turunSurat:
-                                                surah[index].tempatTurun,
-                                            audioAyat: surah[index].audio,
-                                          )),
-                                );
-                              },
-                              child: ItemSurat(
-                                surat: surah[index].namaLatin,
-                                tempatTurun: surah[index].tempatTurun,
-                                nomorSurat: surah[index].nomor,
-                                jumlahAyat: surah[index].jumlahAyat.toString(),
-                                namaAyat: surah[index].nama,
+                        const SizedBox(height: 20.0),
+                        TextField(
+                          controller: searchController,
+                          onChanged: onSearchTextChanged,
+                          decoration: InputDecoration(
+                            hintText: 'Search Surah',
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            suffixIcon: Visibility(
+                              visible: isTextNotEmpty,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    searchController.clear();
+                                  });
+                                },
+                                icon: const Icon(
+                                  CupertinoIcons.clear,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            );
-                          },
+                            ),
+                            prefixIcon: const Icon(
+                              CupertinoIcons.search,
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: ColorConstant.itemDoaColor,
+                          ),
                         ),
+                        const SizedBox(height: 20.0),
+                        searchController.text.isEmpty
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: surah.length,
+                                itemBuilder: (context, index) {
+                                  // idSurat = surah[index].nomor;
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailSurat(
+                                                  idSurat: surah[index].nomor,
+                                                  namaSurat:
+                                                      surah[index].namaLatin,
+                                                  artiSurat: surah[index].arti,
+                                                  jumlahAyat: surah[index]
+                                                      .jumlahAyat
+                                                      .toString(),
+                                                  turunSurat:
+                                                      surah[index].tempatTurun,
+                                                  audioAyat: surah[index].audio,
+                                                )),
+                                      );
+                                    },
+                                    child: ItemSurat(
+                                      surat: surah[index].namaLatin,
+                                      tempatTurun: surah[index].tempatTurun,
+                                      nomorSurat: surah[index].nomor,
+                                      jumlahAyat:
+                                          surah[index].jumlahAyat.toString(),
+                                      namaAyat: surah[index].nama,
+                                    ),
+                                  );
+                                },
+                              )
+                            : _searchResults.isEmpty
+                                ? const Center(
+                                    child: Text('No results found'),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: _searchResults.length,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailSurat(
+                                                idSurat:
+                                                    _searchResults[index].nomor,
+                                                namaSurat: _searchResults[index]
+                                                    .namaLatin,
+                                                artiSurat:
+                                                    _searchResults[index].arti,
+                                                jumlahAyat:
+                                                    _searchResults[index]
+                                                        .jumlahAyat
+                                                        .toString(),
+                                                turunSurat:
+                                                    _searchResults[index]
+                                                        .tempatTurun,
+                                                audioAyat:
+                                                    _searchResults[index].audio,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: ItemSurat(
+                                          surat:
+                                              _searchResults[index].namaLatin,
+                                          tempatTurun:
+                                              _searchResults[index].tempatTurun,
+                                          nomorSurat:
+                                              _searchResults[index].nomor,
+                                          jumlahAyat: _searchResults[index]
+                                              .jumlahAyat
+                                              .toString(),
+                                          namaAyat: _searchResults[index].nama,
+                                        ),
+                                      );
+                                    },
+                                  ),
                       ],
                     ),
                   ),

@@ -5,7 +5,7 @@ import 'package:quran_verse/features/surat/screens/home_screen.dart';
 import 'package:quran_verse/utilities/color.dart';
 
 import '../features/doa/doa_screen.dart';
-import '../features/solat_screen.dart';
+import '../features/solat/solat_screen.dart';
 
 class CustomBottomNav extends StatefulWidget {
   const CustomBottomNav({super.key});
