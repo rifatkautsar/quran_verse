@@ -211,7 +211,7 @@ class _DetailSuratState extends State<DetailSurat> {
                             playAudioFromUrl(widget.audioAyat);
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: ColorConstant.orangeColor,
+                            backgroundColor: ColorConstant.orangeColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
@@ -240,24 +240,26 @@ class _DetailSuratState extends State<DetailSurat> {
                         height: 50.0,
                         child: isPlaying && !isStopped
                             ? ElevatedButton(
-                          onPressed: () {
-                            stopAudio();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.redAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(CupertinoIcons.stop_fill, color: Colors.black),
-                              SizedBox(width: 10.0),
-                              Text('Stop', style: TextStyle(color: Colors.black)),
-                            ],
-                          ),
-                        )
+                                onPressed: () {
+                                  stopAudio();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(CupertinoIcons.stop_fill,
+                                        color: Colors.black),
+                                    SizedBox(width: 10.0),
+                                    Text('Stop',
+                                        style: TextStyle(color: Colors.black)),
+                                  ],
+                                ),
+                              )
                             : null,
                       ),
                       const SizedBox(height: 20.0),
